@@ -5,12 +5,7 @@ const knex = require('knex')
 
 const database = knex({
   client: 'pg',
-  connection: {
-    host: '127.0.0.1',
-    user: 'postgres',
-    password: 'Jesus',
-    database: 'smart-brain',
-  },
+  connection: process.env.DATABASE_URL,
 });
 
 const app = express()
@@ -56,7 +51,7 @@ app.post('/post-image', (req, res) => {
         {
           method: "POST",
           headers: {
-            Authorization: `Bearer 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`,
+            Authorization: `Bearer ${process.env.HF_TOKEN}`,
             "Content-Type": contentType,
           },
           body: imageBlob,
@@ -108,7 +103,9 @@ app.post('/post-image', (req, res) => {
   
 // })
 
-app.listen(3000, () => {
+const PORT = process.env.PORT || 3000
+
+app.listen(PORT, () => {
 console.log("app is running smoothly")
 })
 
